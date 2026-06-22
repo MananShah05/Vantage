@@ -45,3 +45,4 @@ Thumbs.db
 # Build / coverage
 coverage/
 .cache/
+.vercel
