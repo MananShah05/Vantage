@@ -39,6 +39,34 @@ ALLOWED_TICKERS: set[str] = set(DEFAULT_TICKERS.keys())
 _TICKER_RE = re.compile(r"^[\w\.\-\^]{1,20}$")
 _VALID_PERIODS = set(PERIOD_DAYS.keys())
 
+
+def _validate_config() -> None:
+    """
+    Fail-fast / warn on insecure configuration. Keeps secrets and unsafe
+    defaults from silently slipping into a production deployment.
+    """
+    if IS_DEV:
+        return
+
+    # In production, an explicit CORS allow-list is required. Without it the
+    # app would otherwise serve no origin (or, if mis-flagged as dev, "*").
+    if not ALLOWED_ORIGINS:
+        raise RuntimeError(
+            "ALLOWED_ORIGINS must be set to an explicit comma-separated list "
+            "in production (ENV != development). Refusing to start with an "
+            "empty CORS allow-list."
+        )
+
+    # A wildcard origin in production is unsafe — reject it outright.
+    if "*" in ALLOWED_ORIGINS:
+        raise RuntimeError(
+            "Wildcard '*' is not permitted in ALLOWED_ORIGINS in production. "
+            "List the exact origins that may call this API."
+        )
+
+
+_validate_config()
+
 # ── App ─────────────────────────────────────────────────────────────────────
 limiter = Limiter(key_func=get_remote_address)
 

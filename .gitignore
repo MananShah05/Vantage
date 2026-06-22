@@ -1,16 +1,20 @@
-# Secrets / env
+# Secrets / env — ignore all real env files anywhere…
 .env
-.env.local
-.env.*.local
-.env.development
-.env.production
-.env*
+.env.*
 *.env
-**/.env*
+**/.env
+**/.env.*
 secrets/
 *secrets*
-backend/.env
-frontend/.env.local
+*.pem
+*.key
+*.p12
+*.pfx
+
+# …but always keep the example/template files in the repo
+!.env.example
+!**/.env.example
+!*.env.example
 
 # Markdown files and folders
 *.md

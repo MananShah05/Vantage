@@ -30,12 +30,17 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files — ignore real env files but keep example templates tracked
+.env
+.env.*
 *.env
-**/.env*
+**/.env
+**/.env.*
 secrets/
 *secrets*
+!.env.example
+!**/.env.example
+!*.env.example
 
 # Markdown files and folders
 *.md
