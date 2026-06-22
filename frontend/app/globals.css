@@ -1,0 +1,308 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), sans-serif;
+  --font-serif: var(--font-serif), serif;
+  --font-mono: var(--font-mono), monospace;
+}
+
+/* ── Color tokens ─────────────────────────────────────────────────────────── */
+:root {
+  --ink-950:     oklch(8%  0.008 60);
+  --ink-900:     oklch(12% 0.008 60);
+  --ink-800:     oklch(22% 0.008 60);
+  --ink-700:     oklch(38% 0.008 60);  /* was 28% — now legible as muted text */
+  --ink-500:     oklch(50% 0.008 60);  /* new mid-tone for secondary labels */
+  --ink-400:     oklch(62% 0.007 60);  /* was 55% — improved contrast on dark bg */
+  --ink-200:     oklch(82% 0.005 60);
+  --ink-100:     oklch(94% 0.004 60);
+  --accent:      oklch(74% 0.18  68);
+  --accent-dim:  oklch(62% 0.14  68);
+  --accent-bg:   oklch(20% 0.04  68);
+  --positive:    oklch(72% 0.19  142);  /* was 65% — brighter green for dark bg */
+  --negative:    oklch(68% 0.22  22);   /* was 62% — brighter red for dark bg */
+  
+  /* Font tokens */
+  --font-inter:  "Inter",          sans-serif;
+  --font-serif:  "DM Serif Display", serif;
+  --font-mono:   "JetBrains Mono", monospace;
+
+  /* Type scale */
+  --text-d1:    5.5rem;
+  --text-d2:    3.5rem;
+  --text-d3:    2.25rem;
+  --text-d4:    1.625rem;
+
+  --text-ui-xl: 1.125rem;
+  --text-ui-lg: 1rem;
+  --text-ui-md: 0.875rem;
+  --text-ui-sm: 0.75rem;
+  --text-ui-xs: 0.6875rem;
+
+  --lh-display: 0.95;
+  --lh-body:    1.65;
+  --lh-ui:      1.4;
+  --lh-mono:    1.5;
+
+  --ls-display:  -0.02em;
+  --ls-overline:  0.12em;
+  --ls-mono:      0em;
+}
+
+/* ── Base reset ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: auto; } /* Lenis handles smooth scroll — disable CSS smooth */
+
+body {
+  background-color: var(--ink-950);
+  color:            var(--ink-100);
+  font-family:      var(--font-inter);
+  font-size:        var(--text-ui-lg);
+  line-height:      var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Typography utilities ─────────────────────────────────────────────────── */
+
+/* Display headings */
+.type-d1 {
+  font-family:    var(--font-serif);
+  font-size:      var(--text-d1);
+  font-weight:    400;
+  line-height:    var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+.type-d2 {
+  font-family:    var(--font-serif);
+  font-size:      var(--text-d2);
+  font-weight:    400;
+  line-height:    var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+.type-d3 {
+  font-family:    var(--font-serif);
+  font-size:      var(--text-d3);
+  font-weight:    400;
+  line-height:    var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+.type-d4 {
+  font-family:    var(--font-serif);
+  font-size:      var(--text-d4);
+  font-weight:    400;
+  line-height:    var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+
+/* Overline — always before a display heading */
+.type-overline {
+  font-family:    var(--font-inter);
+  font-size:      var(--text-ui-sm);
+  font-weight:    500;
+  line-height:    var(--lh-ui);
+  letter-spacing: var(--ls-overline);
+  text-transform: uppercase;
+  color:          var(--accent);
+}
+
+/* Body */
+.type-body {
+  font-family: var(--font-inter);
+  font-size:   var(--text-ui-lg);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  max-width:   65ch;
+}
+
+/* Data/mono */
+.type-mono {
+  font-family:        var(--font-mono);
+  font-size:          var(--text-ui-sm);
+  font-weight:        400;
+  line-height:        var(--lh-mono);
+  letter-spacing:     var(--ls-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Layout ───────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: var(--ink-900); }
+::-webkit-scrollbar-thumb { background: var(--ink-700); border-radius: 3px; }
+
+/* Grid background — hero only */
+.grid-bg {
+  background-image:
+    linear-gradient(oklch(100% 0 0 / 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(100% 0 0 / 0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Ticker tape */
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-scroll { animation: ticker-scroll 40s linear infinite; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   HERO 3D ANIMATION — Design System Tokens (spec v1.0)
+   ══════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Backgrounds */
+  --bg-void:    oklch(0.09 0.008 262);
+  --bg-base:    oklch(0.11 0.009 258);
+  --bg-surface: oklch(0.16 0.010 254);
+  --bg-raised:  oklch(0.21 0.010 252);
+
+  /* Text */
+  --tx-primary:   oklch(0.93 0.006 78);
+  --tx-secondary: oklch(0.62 0.008 240);
+  --tx-tertiary:  oklch(0.42 0.007 245);
+
+  /* Accent — sage-emerald */
+  --ac-primary: oklch(0.73 0.17 165);
+  --ac-glow:    oklch(0.73 0.17 165 / 0.18);
+  --ac-subtle:  oklch(0.73 0.17 165 / 0.08);
+
+  /* Data */
+  --data-pos:  oklch(0.68 0.14 155);
+  --data-neg:  oklch(0.60 0.18 25);
+  --data-warm: oklch(0.78 0.12 58);
+  --data-flat: oklch(0.55 0.008 245);
+
+  /* Easings */
+  --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-inout:  cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ── Hero station panels (R3F <Html>) ─────────────────────────────────────── */
+.station-panel {
+  transform: translateY(-0.5em);
+  opacity: 0;
+  transition:
+    transform 700ms cubic-bezier(0.23, 1, 0.32, 1),
+    opacity   500ms ease-out,
+    box-shadow 400ms ease-out;
+  will-change: transform, opacity;
+}
+.station-panel.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+.station-panel.glow {
+  box-shadow: 0 0 24px var(--ac-glow);
+}
+
+.hero-data-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.hero-label {
+  font-family: var(--font-inter);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: var(--tx-tertiary);
+}
+
+/* ── Glassmorphism & Redesign Utilities ────────────────────────────────── */
+.glass-panel {
+  background: rgba(20, 18, 16, 0.65); /* var(--ink-950) translucent */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+  transition: border-color 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+
+.glass-panel:hover {
+  border-color: rgba(200, 133, 58, 0.25); /* var(--accent) semi-translucent */
+  box-shadow: 0 16px 48px 0 rgba(200, 133, 58, 0.05);
+}
+
+.glass-header {
+  background: rgba(20, 18, 16, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.glow-btn {
+  position: relative;
+  transition: all 0.25s var(--ease-out);
+}
+
+.glow-btn:hover {
+  box-shadow: 0 0 16px rgba(200, 133, 58, 0.3);
+  transform: translateY(-1px);
+}
+
+.glow-btn:active {
+  transform: translateY(0);
+}
+
+/* Pulsing Status Indicator */
+.pulse-green {
+  box-shadow: 0 0 0 0 rgba(101, 180, 142, 0.7);
+  animation: pulse-green-anim 2s infinite;
+}
+
+@keyframes pulse-green-anim {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(101, 180, 142, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(101, 180, 142, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(101, 180, 142, 0);
+  }
+}
+
+/* Custom Table Row & Cell Styles */
+.returns-table-row {
+  transition: background-color 0.15s var(--ease-out), transform 0.15s var(--ease-out);
+}
+
+.returns-table-row:hover {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+.pill-positive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(101, 200, 142, 0.10);
+  border: 1px solid rgba(101, 200, 142, 0.24);
+  color: var(--positive);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(101, 200, 142, 0.06);
+}
+
+.pill-negative {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(230, 90, 78, 0.10);
+  border: 1px solid rgba(230, 90, 78, 0.24);
+  color: var(--negative);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(230, 90, 78, 0.06);
+}
+
+.sort-icon {
+  display: inline-block;
+  transition: transform 0.2s var(--ease-out), opacity 0.2s var(--ease-out);
+}
+
